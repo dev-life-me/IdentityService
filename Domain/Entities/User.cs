@@ -22,7 +22,7 @@ namespace Domain.Entities
 
         private User() { }
 
-        public static User Create(string email, string fullName, string passwordHash, Role role)
+        public static User Create(string? email, string fullName, string passwordHash, Role role)
         {
             if(string.IsNullOrWhiteSpace(email))
             {

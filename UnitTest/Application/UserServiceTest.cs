@@ -28,8 +28,9 @@ namespace UnitTest.Application
         [InlineData(null)]
         public async Task CreateUserAsync_ShouldThrowArgumentException_WhenEmailIsEmpty(string? email)
         {
+        
             // Arrange
-            var request = new CreateUserRequest(email, "John Doe", "password123", Role.User);
+            var request = new CreateUserRequest(email!, "John Doe", "password123", Role.User);
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentException>(  () => _userService.CreateUserAsync(request, TestContext.Current.CancellationToken));
             _userRepositoryMock.Verify(repo => repo.CreateUserAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
