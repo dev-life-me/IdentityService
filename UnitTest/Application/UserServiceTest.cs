@@ -1,6 +1,6 @@
 ﻿
-
 using Application.Dtos;
+using Application.Exceptions;
 using Application.Interfaces;
 using Application.Services;
 using Domain.Entities;
@@ -30,7 +30,7 @@ namespace UnitTest.Application
         {
         
             // Arrange
-            var request = new CreateUserRequest(email!, "John Doe", "password123", Role.User);
+            var request = new CreateUserRequest(email!, "John Doe", "password123");
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentException>(  () => _userService.CreateUserAsync(request, TestContext.Current.CancellationToken));
             _userRepositoryMock.Verify(repo => repo.CreateUserAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -40,7 +40,7 @@ namespace UnitTest.Application
         public async Task CreateUserAsync_ShouldCreateUser_WhenRequestIsValid()
         {
             // Arrange
-            var request = new CreateUserRequest("john.doe@example.com", "John Doe", "password123", Role.User);
+            var request = new CreateUserRequest("john.doe@example.com", "John Doe", "password123");
             // Act & Assert
             var userDto = await _userService.CreateUserAsync(request, TestContext.Current.CancellationToken);
             Assert.NotNull(userDto);
@@ -59,7 +59,7 @@ namespace UnitTest.Application
             object kk = _userRepositoryMock.Setup(repo => repo.GetUserByIdAsync(userId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((User?)null);
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(() => _userService.GetUserByIdAsync(userId, TestContext.Current.CancellationToken));
+            await Assert.ThrowsAsync<NotFoundException>(() => _userService.GetUserByIdAsync(userId, TestContext.Current.CancellationToken));
             _userRepositoryMock.Verify(repo => repo.GetUserByIdAsync(userId, It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -86,7 +86,7 @@ namespace UnitTest.Application
             _userRepositoryMock.Setup(repo => repo.GetUserByIdAsync(userId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((User?)null);
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(() => _userService.UpdateUserProfileAsync(userId, request, TestContext.Current.CancellationToken));
+            await Assert.ThrowsAsync<NotFoundException>(() => _userService.UpdateUserProfileAsync(userId, request, TestContext.Current.CancellationToken));
            
             _userRepositoryMock.Verify(repo => repo.UpdateUserProfileAsync(It.IsAny<User>(), It.IsAny<uint>(), It.IsAny<CancellationToken>()), Times.Never);
         }
@@ -104,9 +104,6 @@ namespace UnitTest.Application
             // Act & Assert
             await _userService.UpdateUserProfileAsync(userId, request, TestContext.Current.CancellationToken);
             Assert.Equal(request.FullName, user.FullName);
-            Assert.Equal(request.Version + 1, user.Version);
-            Assert.Equal("Jane Doe", user.FullName);
-            Assert.Equal(1u, user.Version);
             _userRepositoryMock.Verify(repo => repo.UpdateUserProfileAsync(user, request.Version, It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -118,7 +115,7 @@ namespace UnitTest.Application
             _userRepositoryMock.Setup(repo => repo.GetUserByIdAsync(userId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((User?)null);
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(() => _userService.DeleteUserAsync(userId, TestContext.Current.CancellationToken));
+            await Assert.ThrowsAsync<NotFoundException>(() => _userService.DeleteUserAsync(userId, TestContext.Current.CancellationToken));
             _userRepositoryMock.Verify(repo => repo.SoftDeleteUserAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 

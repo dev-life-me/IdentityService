@@ -1,9 +1,12 @@
-﻿using Application.Interfaces;
+﻿using Application.Dtos;
+using Application.Interfaces;
 using Domain.Entities;
+using Infrastructure.Exceptions;
 using Infrastructure.Persistence.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace Infrastructure.Persistence.Repositories
@@ -17,14 +20,20 @@ namespace Infrastructure.Persistence.Repositories
         }
         public async Task CreateUserAsync(User user, CancellationToken cancellationToken = default)
         {
-             await _dbContext.Users.AddAsync(user, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _dbContext.Users.AddAsync(user, cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }catch (DbUpdateException ex)
+            {
+                System.Console.WriteLine(ex.Message);
+                throw new ConflictException(ex.Message);
+            }
         }
 
-
-        public async Task<IEnumerable<User>> GetAllUsersAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(CancellationToken cancellationToken = default)
         {
-           return await _dbContext.Users.ToListAsync(cancellationToken);
+           return await _dbContext.Users.Select(u => u.ToUserDto()).ToListAsync(cancellationToken);
         }
 
         public async Task<User?> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -40,12 +49,15 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task UpdateUserProfileAsync(User user, uint expectedVersion, CancellationToken cancellationToken = default)
         {
-            await _dbContext.Users.Where(u => u.Id == user.Id && u.Version == expectedVersion)
-                .ExecuteUpdateAsync(u => u
-                    .SetProperty(u => u.FullName, user.FullName)
-                    .SetProperty(u => u.Version, user.Version + 1), cancellationToken);
+            try
+            {
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new ConflictException("The user profile has been modified by another process.");
+            }
         }
-
 
     }
 }

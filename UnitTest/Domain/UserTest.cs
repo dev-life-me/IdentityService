@@ -33,7 +33,7 @@ namespace UnitTest.Domain
             uint initialVersion = user.Version;
             user.UpdateProfile("Jane Doe", initialVersion);
             Assert.Equal("Jane Doe", user.FullName);
-            Assert.Equal(initialVersion + 1, user.Version);
+            
         }
 
         [Fact]

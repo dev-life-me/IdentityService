@@ -12,7 +12,7 @@ namespace Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasIndex(u => u.NormalizeEmail).IsUnique();
-            builder.Property(u => u.Version).IsRowVersion();
+            builder.Property(u => u.Version).IsConcurrencyToken().IsRowVersion();
         }
     }
 }

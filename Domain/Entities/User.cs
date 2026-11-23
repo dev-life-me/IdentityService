@@ -45,7 +45,7 @@ namespace Domain.Entities
                 throw new InvalidOperationException("Version mismatch");
             }
             FullName = fullName.Trim();
-            Version++;
+   
         }
 
         public void DeleteUser() 

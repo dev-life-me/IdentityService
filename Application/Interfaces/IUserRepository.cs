@@ -12,6 +12,6 @@ namespace Application.Interfaces
         public Task<User?> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default);
         public Task UpdateUserProfileAsync( User user, uint expectedVersion, CancellationToken cancellationToken = default);
         public Task SoftDeleteUserAsync(User user, CancellationToken cancellationToken = default);
-        public Task<IEnumerable<User>> GetAllUsersAsync(CancellationToken cancellationToken = default);
+        public Task<IEnumerable<UserDto>> GetAllUsersAsync(CancellationToken cancellationToken = default);
     }
 }
