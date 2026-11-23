@@ -5,6 +5,7 @@ using Application.Services;
 using Infrastructure.Persistence.AppDbContext;
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Services.Securities;
+using Infrastructure.Services.Securities.Configs;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+RSAGenerator.GenerateKey();
 
 var app = builder.Build();
 
