@@ -1,7 +1,5 @@
 ﻿using Application.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace Infrastructure.Services.Securities
 {
@@ -11,12 +9,18 @@ namespace Infrastructure.Services.Securities
 
         public string HashPassword(string password)
         {
-            throw new NotImplementedException();
+            string hash = BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12);
+            return hash;
         }
 
         public bool VerifyPassword(string hashedPassword, string providedPassword, out bool needsRehash)
         {
             throw new NotImplementedException();
+        }
+
+        public bool VerifyPassword(string hashedPassword, string providedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(providedPassword, hashedPassword);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Application.Services
         }
         public async Task<UserDto> CreateUserAsync(CreateUserRequest request, CancellationToken cancellationToken = default)
         {
-           User newUser = User.Create(request.Email, request.FullName, request.Password, request.Role);
+           User newUser = User.Create(request.Email, request.FullName, _passwordHasher.HashPassword(request.Password), request.Role);
             await _userRepository.CreateUserAsync(newUser, cancellationToken);
            return newUser.ToUserDto();
         }

@@ -8,6 +8,7 @@ namespace Application.Interfaces
     {
         string HashPassword(string password);
         bool VerifyPassword(string hashedPassword, string providedPassword, out bool needsRehash);
+        bool VerifyPassword(string hashedPassword, string providedPassword);
         string DumpHash { get; }
     }
 }

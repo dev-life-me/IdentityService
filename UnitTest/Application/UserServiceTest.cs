@@ -41,6 +41,7 @@ namespace UnitTest.Application
         {
             // Arrange
             var request = new CreateUserRequest("john.doe@example.com", "John Doe", "password123");
+            _passwordHasherMock.Setup(hasher => hasher.HashPassword(request.Password)).Returns("hashpassword");
             // Act & Assert
             var userDto = await _userService.CreateUserAsync(request, TestContext.Current.CancellationToken);
             Assert.NotNull(userDto);
@@ -69,8 +70,8 @@ namespace UnitTest.Application
             // Arrange
             var userId = Guid.NewGuid();
             var user = User.Create("john.doe@example.com", "John Doe", "password123", Role.User);
-            _userRepositoryMock.Setup(repo => repo.GetUserByIdAsync(userId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(user);
+           ///* _userRepositoryMock.Setup(repo => repo.GetUserByIdAsync(userId, It.IsAny<CancellationToken>()))
+           //     .ReturnsAsync(user);*/
             // Act & Assert
             var result = await _userService.GetUserByIdAsync(userId, TestContext.Current.CancellationToken);
             Assert.NotNull(result);
