@@ -9,7 +9,7 @@
     <Project Path="Infrastructure/Infrastructure.csproj" />
   </Folder>
   <Folder Name="/test/">
-    <Project Path="IntergrationTest/IntergrationTest.csproj" Id="bda142c6-8a11-4e46-9918-ee23857bcf4d" />
+    <Project Path="IntergrationTest/IntegrationTest.csproj" Id="bda142c6-8a11-4e46-9918-ee23857bcf4d" />
     <Project Path="UnitTest/UnitTest.csproj" Id="414da9ff-af7a-425b-98d9-fe98afa10ba9" />
   </Folder>
 </Solution>

@@ -5,7 +5,7 @@ namespace Infrastructure.Services.Securities
 {
     public class PasswordHasher : IPasswordHasher
     {
-        public string DumpHash => throw new NotImplementedException();
+        public string DumpHash => BCrypt.Net.BCrypt.HashPassword("abcbbacbabcba", workFactor: 12);
 
         public string HashPassword(string password)
         {

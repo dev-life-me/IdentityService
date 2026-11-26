@@ -363,8 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 #RSA key
-keys/private.pem
-keys/public.pem
+*.pem
 
 public.pem
 private.pem

@@ -9,16 +9,18 @@ namespace Domain.Entities
         public string Email { get; set; } = default!;
 
         public string FullName { get; private set; } = default!;
-        public string NormalizeEmail { get; set; } = default!;
-        public string PasswordHash { get; set; } = default!;
-        public Role Role { get; set; } = Role.User;
-        public Guid SecurityStamp { get; set; } = Guid.NewGuid();
-        public int AccessFailedCount { get; set; } = 0;
-        public DateTimeOffset? LockoutEnd { get; set; }
-        public bool IsDeleted { get; set; } = false;
-        public DateTimeOffset? DeletedAt { get; set; }
-        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
-        public uint Version { get; set; }
+        public string NormalizeEmail { get; private set; } = default!;
+        public string PasswordHash { get; private set; } = default!;
+        public Role Role { get; private set; } = Role.User;
+        public Guid SecurityStamp { get; private set; } = Guid.NewGuid();
+        public int AccessFailedCount { get; private set; } = 0;
+        public DateTimeOffset? LockoutEnd { get; private set; }
+        public bool IsDeleted { get; private set; } = false;
+        public DateTimeOffset? DeletedAt { get; private set; }
+        public DateTimeOffset CreatedAt { get;  private set; } = DateTimeOffset.UtcNow;
+        public uint Version { get;  private set; }
+
+        public ICollection<UserSession> UserSessions { get; private set; } = new List<UserSession>();
 
         private User() { }
 

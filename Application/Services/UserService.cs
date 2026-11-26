@@ -2,9 +2,6 @@
 using Application.Exceptions;
 using Application.Interfaces;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Services
 {

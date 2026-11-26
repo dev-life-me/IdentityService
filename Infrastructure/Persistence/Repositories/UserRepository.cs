@@ -36,6 +36,11 @@ namespace Infrastructure.Persistence.Repositories
            return await _dbContext.Users.Select(u => u.ToUserDto()).ToListAsync(cancellationToken);
         }
 
+        public async Task<User?> GetUserByNormalizeEmail(string email, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.NormalizeEmail.Equals(email) && !u.IsDeleted );
+        }
+
         public async Task<User?> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Users.Where(u => u.Id == id).FirstOrDefaultAsync(cancellationToken);

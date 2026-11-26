@@ -13,5 +13,7 @@ namespace Application.Interfaces
         public Task UpdateUserProfileAsync( User user, uint expectedVersion, CancellationToken cancellationToken = default);
         public Task SoftDeleteUserAsync(User user, CancellationToken cancellationToken = default);
         public Task<IEnumerable<UserDto>> GetAllUsersAsync(CancellationToken cancellationToken = default);
+
+        public Task<User?> GetUserByNormalizeEmail(string email, CancellationToken cancellationToken = default);
     }
 }

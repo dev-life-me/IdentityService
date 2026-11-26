@@ -14,7 +14,7 @@ namespace UnitTest.Application
     {
         private readonly Mock<IUserRepository> _userRepositoryMock;
         private readonly Mock<IPasswordHasher> _passwordHasherMock;
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
         public UserServiceTest()
         {

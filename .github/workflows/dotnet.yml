@@ -22,6 +22,14 @@ jobs:
         dotnet-version: 10.0.x
     - name: Restore dependencies
       run: dotnet restore
+
+    - name: Generate RSA
+      working-directory: Api
+      run: |
+        mkdir -p keys
+        openssl genpkey -algorithm RSA -out keys/test/private.pem -pkeyopt rsa_keygen_bits:2048
+        openssl pkey -in keys/private.pem -pubout -out keys/test/public.pem
+        chmod 600 keys/test/private.pem
     - name: Build
       run: dotnet build --no-restore
     - name: Test

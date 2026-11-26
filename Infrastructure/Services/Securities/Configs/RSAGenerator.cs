@@ -15,8 +15,8 @@ namespace Infrastructure.Services.Securities.Configs
 
             Directory.CreateDirectory("keys");
 
-            File.WriteAllText("keys/private.key", privateKey);
-            File.WriteAllText("keys/public.key", publicKey);
+            File.WriteAllText("keys/private.pem", privateKey);
+            File.WriteAllText("keys/public.pem", publicKey);
             
 
         }

@@ -27,6 +27,8 @@ namespace Api.ExceptionHandlers
 
                 ConflictException => (StatusCodes.Status409Conflict, "Conflict"),
 
+                UnAuthException => (StatusCodes.Status401Unauthorized, "Invalid Credentials"),
+
                 _ => (StatusCodes.Status500InternalServerError, "Internal Server Error")
             };
 
